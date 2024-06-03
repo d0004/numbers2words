@@ -1,5 +1,5 @@
 {
-  "name": "jurchiks/numbers2words",
+  "name": "d0004/numbers2words",
   "description": "It spells numbers (and currencies)!",
   "keywords": [
     "numbers",
@@ -10,8 +10,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Juris Sudmalis",
-      "email": "jurchiks101@gmail.com"
+      "name": "D0004",
+      "email": "info@itgroup.lv"
     }
   ],
   "require": {
