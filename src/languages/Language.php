@@ -17,6 +17,7 @@ abstract class Language
 	public const SPANISH = 'es';
 	public const POLISH = 'pl';
 	public const ITALIAN = 'it';
+	public const NORWEGIAN = 'no';
 
 	private const SUPPORTED_LANGUAGE_CLASSES = [
 		self::ENGLISH    => English::class,
@@ -27,6 +28,7 @@ abstract class Language
 		self::SPANISH    => Spanish::class,
 		self::POLISH     => Polish::class,
 		self::ITALIAN    => Italian::class,
+		self::NORWEGIAN    => Norwegian::class,
 	];
 	
 	/**

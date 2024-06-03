@@ -1,0 +1,210 @@
+<?php
+
+namespace js\tools\numbers2words\languages;
+
+use js\tools\numbers2words\exceptions\UnsupportedCurrencyException;
+use js\tools\numbers2words\Speller;
+
+/**
+ * @internal
+ */
+final class Norwegian extends Language
+{
+    public function spellMinus(): string
+    {
+        return 'minus';
+    }
+
+    public function spellMinorUnitSeparator(): string
+    {
+        return 'og';
+    }
+
+    public function spellHundred(int $number, int $groupOfThrees, bool $isDecimalPart, string $currency): string
+    {
+        static $hundreds = [
+            1 => 'ett hundre',
+            2 => 'to hundre',
+            3 => 'tre hundre',
+            4 => 'fire hundre',
+            5 => 'fem hundre',
+            6 => 'seks hundre',
+            7 => 'syv hundre',
+            8 => 'åtte hundre',
+            9 => 'ni hundre',
+        ];
+        static $tens = [
+            1 => 'ti',
+            2 => 'tjue',
+            3 => 'tretti',
+            4 => 'førti',
+            5 => 'femti',
+            6 => 'seksti',
+            7 => 'sytti',
+            8 => 'åtti',
+            9 => 'nitti',
+        ];
+        static $teens = [
+            11 => 'elleve',
+            12 => 'tolv',
+            13 => 'tretten',
+            14 => 'fjorten',
+            15 => 'femten',
+            16 => 'seksten',
+            17 => 'sytten',
+            18 => 'atten',
+            19 => 'nitten',
+        ];
+
+        $text = '';
+
+        if ($number >= 100)
+        {
+            $text .= $hundreds[intval(substr("$number", 0, 1))];
+            $number = $number % 100;
+
+            if ($number === 0) // exact hundreds
+            {
+                return $text;
+            }
+
+            $text .= ' ';
+        }
+
+        if ($number < 10)
+        {
+            $text .= $this->spellSingle($number, $isDecimalPart, $currency);
+        }
+        else if (($number > 10) && ($number < 20))
+        {
+            $text .= $teens[$number];
+        }
+        else
+        {
+            $text .= $tens[intval(substr($number, 0, 1))];
+
+            if ($number % 10 > 0)
+            {
+                $text .= ' ' . $this->spellSingle($number % 10, $isDecimalPart, $currency);
+            }
+        }
+
+        return $text;
+    }
+
+    private function spellSingle(int $digit, bool $isDecimalPart, string $currency): string
+    {
+        static $singlesMasculine = [
+            0 => 'null',
+            1 => 'en',
+            2 => 'to',
+            3 => 'tre',
+            4 => 'fire',
+            5 => 'fem',
+            6 => 'seks',
+            7 => 'syv',
+            8 => 'åtte',
+            9 => 'ni',
+        ];
+        static $singlesFeminine = [
+            0 => 'null',
+            1 => 'ei',
+            2 => 'to',
+            3 => 'tre',
+            4 => 'fire',
+            5 => 'fem',
+            6 => 'seks',
+            7 => 'syv',
+            8 => 'åtte',
+            9 => 'ni',
+        ];
+
+        $feminineCurrencies = [
+            Speller::CURRENCY_RUSSIAN_ROUBLE => $isDecimalPart, // Russian kopeks (but not rubles)
+            Speller::CURRENCY_BRITISH_POUND  => !$isDecimalPart, // British pounds (but not pennies)
+        ];
+
+        if (!empty($feminineCurrencies[$currency]))
+        {
+            return $singlesFeminine[$digit];
+        }
+
+        return $singlesMasculine[$digit];
+    }
+
+    public function spellExponent(string $type, int $number, string $currency): string
+    {
+        $tens = $number % 100;
+        $singles = $number % 10;
+
+        if ($type === 'million')
+        {
+            if (($singles === 1) && ($tens !== 11))
+            {
+                return 'million';
+            }
+
+            return 'millioner';
+        }
+
+        if ($type === 'thousand')
+        {
+            if (($singles === 1) && ($tens !== 11))
+            {
+                return 'tusen';
+            }
+
+            return 'tusen';
+        }
+
+        return '';
+    }
+
+    public function getCurrencyNameMajor(int $amount, string $currency): string
+    {
+        static $names = [
+            Speller::CURRENCY_EURO           => ['euro', 'euro', 'euro'],
+            Speller::CURRENCY_BRITISH_POUND  => ['pund', 'pund', 'pund'],
+            Speller::CURRENCY_RUSSIAN_ROUBLE => ['rubl', 'rubler', 'rubler'],
+            Speller::CURRENCY_US_DOLLAR      => ['dollar', 'dollar', 'dollar'],
+            Speller::CURRENCY_PL_ZLOTY       => ['zloty', 'zloty', 'zloty'],
+        ];
+
+        return self::getCurrencyName($names, $amount, $currency);
+    }
+
+    public function getCurrencyNameMinor(int $amount, string $currency): string
+    {
+        static $names = [
+            Speller::CURRENCY_EURO           => ['cent', 'cent', 'cent'],
+            Speller::CURRENCY_BRITISH_POUND  => ['penny', 'penny', 'penny'],
+            Speller::CURRENCY_RUSSIAN_ROUBLE => ['kopek', 'kopek', 'kopek'],
+            Speller::CURRENCY_US_DOLLAR      => ['cent', 'cent', 'cent'],
+            Speller::CURRENCY_PL_ZLOTY       => ['grosz', 'grosz', 'grosz'],
+        ];
+
+        return self::getCurrencyName($names, $amount, $currency);
+    }
+
+    private static function getCurrencyName(array $names, int $amount, string $currency): string
+    {
+        $tens = $amount % 100;
+        $singles = $amount % 10;
+
+        if (($singles === 1) && ($tens !== 11)) // 1, 21, 31, ... 91
+        {
+            $index = 0;
+        }
+        else if (($singles > 1) // 2-9, 22-29, ... 92-99
+            && (($tens - $singles) !== 10))
+        {
+            $index = 1;
+        }
+        else // 0, 10, 11-19, 20, 30, ... 90
+        {
+            $index = 2;
+        }
+
+        return $names[$currency][$index] ?? self::throw(new UnsupportedCurrencyException($currency));
+    }
+}

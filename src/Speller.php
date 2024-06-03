@@ -18,6 +18,7 @@ class Speller
 	const LANGUAGE_SPANISH = Language::SPANISH;
 	const LANGUAGE_POLISH = Language::POLISH;
 	const LANGUAGE_ITALIAN = Language::ITALIAN;
+	const LANGUAGE_NORWEGIAN = Language::NORWEGIAN;
 
 	const CURRENCY_EURO = 'EUR';
 	const CURRENCY_BRITISH_POUND = 'GBP';
@@ -27,6 +28,7 @@ class Speller
 	const CURRENCY_US_DOLLAR = 'USD';
 	const CURRENCY_PL_ZLOTY = 'PLN';
 	const CURRENCY_TANZANIAN_SHILLING = 'TZS';
+	const CURRENCY_NORWEGIAN_KRONE = 'NOK';
 	
 	private static $currencies = [
 		self::CURRENCY_EURO,
@@ -37,6 +39,7 @@ class Speller
 		self::CURRENCY_US_DOLLAR,
 		self::CURRENCY_PL_ZLOTY,
 		self::CURRENCY_TANZANIAN_SHILLING,
+		self::CURRENCY_NORWEGIAN_KRONE,
 	];
 	
 	/** @var Language */

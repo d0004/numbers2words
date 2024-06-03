@@ -14,6 +14,7 @@ Supported languages (ISO 639-1 language codes):
 * Spanish (`es`)
 * Italian (`it`)
 * Polish (`pl`)
+* Norwegian (`no`)
 
 Supported currencies (ISO 4217 currency codes):
 * British Pounds (`GBP`)
@@ -24,6 +25,7 @@ Supported currencies (ISO 4217 currency codes):
 * U.S. Dollars (`USD`)
 * Polish Zloty (`PLN`)
 * Tanzanian Shillings (`TZS`)
+* Norwegian krone (`NOK`)
 
 #### Installation:
 
