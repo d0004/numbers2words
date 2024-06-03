@@ -2,14 +2,13 @@
 
 namespace js\tools\numbers2words\languages;
 
-use Currencies;
 use js\tools\numbers2words\exceptions\UnsupportedCurrencyException;
 use js\tools\numbers2words\Speller;
 
 /**
  * @internal
  */
-final class Norwegian extends Language
+class Norwegian extends Language
 {
     public function spellMinus(): string
     {

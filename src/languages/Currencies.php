@@ -1,5 +1,7 @@
 <?php
 
+namespace js\tools\numbers2words\languages;
+
 use js\tools\numbers2words\Speller;
 
 class Currencies

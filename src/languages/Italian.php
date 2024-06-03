@@ -2,7 +2,6 @@
 
 namespace js\tools\numbers2words\languages;
 
-use Currencies;
 use js\tools\numbers2words\exceptions\UnsupportedCurrencyException;
 use js\tools\numbers2words\Speller;
 
