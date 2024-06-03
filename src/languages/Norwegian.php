@@ -173,24 +173,9 @@ class Norwegian extends Language
 	}
 
     private static function getCurrencyName(array $names, int $amount, string $currency): string
-    {
-        $tens = $amount % 100;
-        $singles = $amount % 10;
-
-        if (($singles === 1) && ($tens !== 11)) // 1, 21, 31, ... 91
-        {
-            $index = 0;
-        }
-        else if (($singles > 1) // 2-9, 22-29, ... 92-99
-            && (($tens - $singles) !== 10))
-        {
-            $index = 1;
-        }
-        else // 0, 10, 11-19, 20, 30, ... 90
-        {
-            $index = 2;
-        }
-
-        return $names[$currency][$index] ?? self::throw(new UnsupportedCurrencyException($currency));
-    }
+	{
+		$index = (($amount === 1) ? 0 : 1);
+		
+		return $names[$currency][$index] ?? self::throw(new UnsupportedCurrencyException($currency));
+	}
 }
