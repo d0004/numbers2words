@@ -2,6 +2,7 @@
 
 namespace js\tools\numbers2words\languages;
 
+use Currencies;
 use js\tools\numbers2words\exceptions\UnsupportedCurrencyException;
 use js\tools\numbers2words\Speller;
 
@@ -137,33 +138,13 @@ final class Italian extends Language
 	
 	public function getCurrencyNameMajor(int $amount, string $currency): string
 	{
-		static $names = [
-			Speller::CURRENCY_EURO               => ['euro', 'euro'],
-			Speller::CURRENCY_BRITISH_POUND      => ['sterlina', 'sterline'],
-			Speller::CURRENCY_LATVIAN_LAT        => ['lats', 'lats'],
-			Speller::CURRENCY_LITHUANIAN_LIT     => ['litas', 'litas'],
-			Speller::CURRENCY_RUSSIAN_ROUBLE     => ['rublo', 'rubli'],
-			Speller::CURRENCY_US_DOLLAR          => ['dollaro', 'dollari'],
-			Speller::CURRENCY_PL_ZLOTY           => ['zloty', 'zlote'],
-			Speller::CURRENCY_TANZANIAN_SHILLING => ['scellino', 'scellini'],
-		];
-		
+		$names = Currencies::getCurrencyNameMajor();
 		return self::getCurrencyName($names, $amount, $currency);
 	}
 	
 	public function getCurrencyNameMinor(int $amount, string $currency): string
 	{
-		static $names = [
-			Speller::CURRENCY_EURO               => ['centesimo', 'centesimi'],
-			Speller::CURRENCY_BRITISH_POUND      => ['penny', 'pennies'],
-			Speller::CURRENCY_LATVIAN_LAT        => ['santim', 'santims'],
-			Speller::CURRENCY_LITHUANIAN_LIT     => ['centas', 'centai'],
-			Speller::CURRENCY_RUSSIAN_ROUBLE     => ['copeche', 'copechi'],
-			Speller::CURRENCY_US_DOLLAR          => ['centesimo', 'centesimi'],
-			Speller::CURRENCY_PL_ZLOTY           => ['grosz', 'groszy'],
-			Speller::CURRENCY_TANZANIAN_SHILLING => ['centesimo', 'centesimi'],
-		];
-		
+		$names = Currencies::getCurrencyNameMinor();
 		return self::getCurrencyName($names, $amount, $currency);
 	}
 	

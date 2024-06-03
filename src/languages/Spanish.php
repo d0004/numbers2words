@@ -1,6 +1,7 @@
 <?php
 namespace js\tools\numbers2words\languages;
 
+use Currencies;
 use js\tools\numbers2words\exceptions\UnsupportedCurrencyException;
 use js\tools\numbers2words\Speller;
 
@@ -140,34 +141,13 @@ final class Spanish extends Language
 	
 	public function getCurrencyNameMajor(int $amount, string $currency): string
 	{
-		// TODO some of these spellings are extremely hard to find and are probably incorrect
-		static $names = [
-			Speller::CURRENCY_EURO               => ['euro', 'euros'],
-			Speller::CURRENCY_BRITISH_POUND      => ['libra esterlina', 'libras esterlinas'],
-			Speller::CURRENCY_LATVIAN_LAT        => ['lat', 'lats'],
-			Speller::CURRENCY_LITHUANIAN_LIT     => ['litas', 'litas'],
-			Speller::CURRENCY_RUSSIAN_ROUBLE     => ['rublo ruso', 'rublos rusos'],
-			Speller::CURRENCY_US_DOLLAR          => ['dólar estadounidense', 'dólares estadounidenses'],
-			Speller::CURRENCY_PL_ZLOTY           => ['zloty', 'zlotys'],
-			Speller::CURRENCY_TANZANIAN_SHILLING => ['chelín', 'chelines'],
-		];
-		
+		$names = Currencies::getCurrencyNameMajor();
 		return self::getCurrencyName($names, $amount, $currency);
 	}
 	
 	public function getCurrencyNameMinor(int $amount, string $currency): string
 	{
-		static $names = [
-			Speller::CURRENCY_EURO               => ['centime', 'centimes'],
-			Speller::CURRENCY_BRITISH_POUND      => ['penique', 'peniques'],
-			Speller::CURRENCY_LATVIAN_LAT        => ['sentim', 'sentims'],
-			Speller::CURRENCY_LITHUANIAN_LIT     => ['cent', 'cents'],
-			Speller::CURRENCY_RUSSIAN_ROUBLE     => ['kopek', 'kopeks'],
-			Speller::CURRENCY_US_DOLLAR          => ['centavo', 'centavos'],
-			Speller::CURRENCY_PL_ZLOTY           => ['grosz', 'grosze'],
-			Speller::CURRENCY_TANZANIAN_SHILLING => ['centavo', 'centavos'],
-		];
-		
+		$names = Currencies::getCurrencyNameMinor();
 		return self::getCurrencyName($names, $amount, $currency);
 	}
 	

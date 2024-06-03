@@ -2,6 +2,7 @@
 
 namespace js\tools\numbers2words\languages;
 
+use Currencies;
 use js\tools\numbers2words\exceptions\UnsupportedCurrencyException;
 use js\tools\numbers2words\Speller;
 
@@ -160,31 +161,17 @@ final class Norwegian extends Language
         return '';
     }
 
-    public function getCurrencyNameMajor(int $amount, string $currency): string
-    {
-        static $names = [
-            Speller::CURRENCY_EURO           => ['euro', 'euro', 'euro'],
-            Speller::CURRENCY_BRITISH_POUND  => ['pund', 'pund', 'pund'],
-            Speller::CURRENCY_RUSSIAN_ROUBLE => ['rubl', 'rubler', 'rubler'],
-            Speller::CURRENCY_US_DOLLAR      => ['dollar', 'dollar', 'dollar'],
-            Speller::CURRENCY_PL_ZLOTY       => ['zloty', 'zloty', 'zloty'],
-        ];
-
-        return self::getCurrencyName($names, $amount, $currency);
-    }
-
-    public function getCurrencyNameMinor(int $amount, string $currency): string
-    {
-        static $names = [
-            Speller::CURRENCY_EURO           => ['cent', 'cent', 'cent'],
-            Speller::CURRENCY_BRITISH_POUND  => ['penny', 'penny', 'penny'],
-            Speller::CURRENCY_RUSSIAN_ROUBLE => ['kopek', 'kopek', 'kopek'],
-            Speller::CURRENCY_US_DOLLAR      => ['cent', 'cent', 'cent'],
-            Speller::CURRENCY_PL_ZLOTY       => ['grosz', 'grosz', 'grosz'],
-        ];
-
-        return self::getCurrencyName($names, $amount, $currency);
-    }
+	public function getCurrencyNameMajor(int $amount, string $currency): string
+	{
+		$names = Currencies::getCurrencyNameMajor();
+		return self::getCurrencyName($names, $amount, $currency);
+	}
+	
+	public function getCurrencyNameMinor(int $amount, string $currency): string
+	{
+		$names = Currencies::getCurrencyNameMinor();
+		return self::getCurrencyName($names, $amount, $currency);
+	}
 
     private static function getCurrencyName(array $names, int $amount, string $currency): string
     {
